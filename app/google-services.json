@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "403451025048",
+    "project_id": "bahia-7210d",
+    "storage_bucket": "bahia-7210d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:403451025048:android:58d2ba64fb5fe6d77ce2ed",
+        "android_client_info": {
+          "package_name": "com.example.bahia"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqo1TDslT0N3BVNTUPaaLP3pZzURN5e_U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

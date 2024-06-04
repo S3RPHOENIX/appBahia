@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="progress_bar" type="id" />
+    <item name="button_pay" type="id" />
+    <item name="button_back_to_home" type="id" />
+    <item name="imageView" type="id" />
+    <item name="edit_text_name" type="id" />
+    <item name="edit_text_address" type="id" />
+    <item name="edit_text_city" type="id" />
+    <item name="edit_text_state" type="id" />
+    <item name="edit_text_zip" type="id" />
+    <item name="edit_text_phone" type="id" />
+    <item name="button_save_address" type="id" />
+    <item name="textView2" type="id" />
+    <item name="seafood_price" type="id" />
+    <item name="recycler_view_seafood" type="id" />
+    <item name="decrease_quantity_button" type="id" />
+    <item name="product_quantity" type="id" />
+    <item name="increase_quantity_button" type="id" />
+</resources>

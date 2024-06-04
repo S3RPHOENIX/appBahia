@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Bahia</string>
+    <string name="product_image" />
+    <string name="cart_item_image_desc" />
+    <string name="purchase_item_image" />
+</resources>
