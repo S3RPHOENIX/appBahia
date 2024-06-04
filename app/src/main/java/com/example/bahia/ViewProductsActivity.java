@@ -1,5 +1,6 @@
 package com.example.bahia;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -10,6 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -21,10 +24,9 @@ import java.util.List;
 public class ViewProductsActivity extends AppCompatActivity {
 
     private static final String TAG = "ViewProductsActivity";
-
-    private RecyclerView productsRecyclerView;
+    private RecyclerView recyclerView;
     private SeafoodAdapter seafoodAdapter;
-    private List<Seafood> seafoodList = new ArrayList<>();
+    private List<Seafood> seafoodList;
     private FirebaseFirestore db;
 
     @Override
@@ -34,16 +36,27 @@ public class ViewProductsActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
-        productsRecyclerView = findViewById(R.id.products_recycler_view);
-        productsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
+        recyclerView = findViewById(R.id.recycler_view_products);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        seafoodList = new ArrayList<>();
         seafoodAdapter = new SeafoodAdapter(seafoodList, new SeafoodAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Seafood item) {
-                // Handle item click if needed
+                Intent intent = new Intent(ViewProductsActivity.this, UpdateProductActivity.class);
+                intent.putExtra("PRODUCT_ID", item.getId());
+                intent.putExtra("PRODUCT_NAME", item.getName());
+                intent.putExtra("PRODUCT_DESCRIPTION", item.getDescription());
+                intent.putExtra("PRODUCT_PRICE", item.getPrice());
+                intent.putExtra("PRODUCT_IMAGE_URL", item.getImageUrl());
+                startActivity(intent);
+            }
+
+            @Override
+            public void onDeleteClick(Seafood item) {
+                deleteProduct(item);
             }
         });
-        productsRecyclerView.setAdapter(seafoodAdapter);
+        recyclerView.setAdapter(seafoodAdapter);
 
         fetchSeafoodData();
     }
@@ -62,12 +75,11 @@ public class ViewProductsActivity extends AppCompatActivity {
                                 String name = document.getString("name");
                                 String description = document.getString("description");
                                 Double price = document.getDouble("price");
-                                String imageName = document.getString("image");
-                                int imageResId = getResources().getIdentifier(imageName, "drawable", getPackageName());
+                                String imageUrl = document.getString("imageUrl");
 
-                                if (name != null && description != null && price != null && imageName != null && imageResId != 0) {
-                                    seafoodList.add(new Seafood(id, name, description, price, imageResId));
-                                    Log.d(TAG, "Added seafood item: " + name + " with price: " + price);
+                                if (name != null && description != null && price != null && imageUrl != null) {
+                                    seafoodList.add(new Seafood(id, name, description, price, imageUrl));
+                                    Log.d(TAG, "Added seafood item: " + name);
                                 } else {
                                     Log.w(TAG, "Missing field in document: " + document.getId());
                                 }
@@ -75,8 +87,26 @@ public class ViewProductsActivity extends AppCompatActivity {
                             seafoodAdapter.notifyDataSetChanged();
                         } else {
                             Log.w(TAG, "Error getting documents.", task.getException());
-                            Toast.makeText(ViewProductsActivity.this, "Error getting documents: " + task.getException(), Toast.LENGTH_SHORT).show();
                         }
+                    }
+                });
+    }
+
+    private void deleteProduct(Seafood item) {
+        db.collection("seafood").document(item.getId())
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        seafoodList.remove(item);
+                        seafoodAdapter.notifyDataSetChanged();
+                        Toast.makeText(ViewProductsActivity.this, "Producto eliminado", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(ViewProductsActivity.this, "Error al eliminar el producto", Toast.LENGTH_SHORT).show();
                     }
                 });
     }

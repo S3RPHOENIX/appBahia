@@ -9,28 +9,28 @@ public class Seafood implements Serializable {
     private String name;
     private String description;
     private double price;
-    private int imageResId;
+    private String imageUrl; // New field for image URL
     private int quantity;
 
     // Constructor sin argumentos
     public Seafood() {
     }
 
-    public Seafood(String id, String name, String description, double price, int imageResId) {
+    public Seafood(String id, String name, String description, double price, String imageUrl) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
-        this.imageResId = imageResId;
+        this.imageUrl = imageUrl;
         this.quantity = 1; // Default quantity is 1
     }
 
-    public Seafood(String id, String name, String description, double price, int imageResId, int quantity) {
+    public Seafood(String id, String name, String description, double price, String imageUrl, int quantity) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
-        this.imageResId = imageResId;
+        this.imageUrl = imageUrl;
         this.quantity = quantity;
     }
 
@@ -50,8 +50,8 @@ public class Seafood implements Serializable {
         return price;
     }
 
-    public int getImageResId() {
-        return imageResId;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
     public int getQuantity() {
@@ -68,7 +68,7 @@ public class Seafood implements Serializable {
         map.put("name", name);
         map.put("description", description);
         map.put("price", price);
-        map.put("image", imageResId); // Store the image resource ID as an integer
+        map.put("imageUrl", imageUrl); // Store the image URL as a string
         map.put("quantity", quantity);
         return map;
     }

@@ -9,12 +9,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
-public class SeafoodAdapter extends RecyclerView.Adapter<SeafoodAdapter.ViewHolder> {
+public class SeafoodAdapter extends RecyclerView.Adapter<SeafoodAdapter.SeafoodViewHolder> {
 
     public interface OnItemClickListener {
         void onItemClick(Seafood item);
+        void onDeleteClick(Seafood item);
     }
 
     private List<Seafood> seafoodList;
@@ -27,13 +30,13 @@ public class SeafoodAdapter extends RecyclerView.Adapter<SeafoodAdapter.ViewHold
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_seafood, parent, false);
-        return new ViewHolder(view);
+    public SeafoodViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_seafood_admin, parent, false);
+        return new SeafoodViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SeafoodViewHolder holder, int position) {
         holder.bind(seafoodList.get(position), listener);
     }
 
@@ -42,35 +45,42 @@ public class SeafoodAdapter extends RecyclerView.Adapter<SeafoodAdapter.ViewHold
         return seafoodList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class SeafoodViewHolder extends RecyclerView.ViewHolder {
         public TextView idTextView;
         public TextView nameTextView;
         public TextView descriptionTextView;
         public TextView priceTextView;
-        public TextView imageNameTextView;
         public ImageView imageView;
+        public ImageView deleteButton;
 
-        public ViewHolder(View itemView) {
+        public SeafoodViewHolder(View itemView) {
             super(itemView);
             idTextView = itemView.findViewById(R.id.seafood_item_id);
             nameTextView = itemView.findViewById(R.id.seafood_item_name);
             descriptionTextView = itemView.findViewById(R.id.seafood_item_description);
             priceTextView = itemView.findViewById(R.id.seafood_item_price);
-            imageNameTextView = itemView.findViewById(R.id.seafood_item_image_name);
             imageView = itemView.findViewById(R.id.seafood_item_image);
+            deleteButton = itemView.findViewById(R.id.btn_delete_product);
         }
 
         public void bind(final Seafood seafood, final OnItemClickListener listener) {
             idTextView.setText("ID: " + seafood.getId());
-            nameTextView.setText("Name: " + seafood.getName());
-            descriptionTextView.setText("Description: " + seafood.getDescription());
-            priceTextView.setText(String.format("Price: $%.2f", seafood.getPrice()));
-            imageNameTextView.setText("Image Name: " + seafood.getImageResId());
-            imageView.setImageResource(seafood.getImageResId());
+            nameTextView.setText(seafood.getName());
+            descriptionTextView.setText(seafood.getDescription());
+            priceTextView.setText(String.format("$%.2f", seafood.getPrice()));
+            Glide.with(itemView.getContext()).load(seafood.getImageUrl()).into(imageView);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     listener.onItemClick(seafood);
+                }
+            });
+
+            deleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onDeleteClick(seafood);
                 }
             });
         }

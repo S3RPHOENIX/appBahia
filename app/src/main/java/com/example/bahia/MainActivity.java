@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btnPedidos;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
-    private SeafoodAdapter seafoodAdapter;
+    private SeafoodAdapterUser seafoodAdapter;
     private List<Seafood> seafoodList = new ArrayList<>();
 
     @Override
@@ -76,14 +76,14 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        seafoodAdapter = new SeafoodAdapter(seafoodList, new SeafoodAdapter.OnItemClickListener() {
+        seafoodAdapter = new SeafoodAdapterUser(seafoodList, new SeafoodAdapterUser.OnItemClickListener() {
             @Override
             public void onItemClick(Seafood item) {
                 Intent intent = new Intent(MainActivity.this, ProductDetailActivity.class);
                 intent.putExtra("PRODUCT_ID", item.getId());
                 intent.putExtra("PRODUCT_NAME", item.getName());
                 intent.putExtra("PRODUCT_DESCRIPTION", item.getDescription());
-                intent.putExtra("PRODUCT_IMAGE", item.getImageResId());
+                intent.putExtra("PRODUCT_IMAGE_URL", item.getImageUrl());
                 intent.putExtra("PRODUCT_PRICE", item.getPrice());
                 startActivity(intent);
             }
@@ -107,11 +107,10 @@ public class MainActivity extends AppCompatActivity {
                                 String name = document.getString("name");
                                 String description = document.getString("description");
                                 Double price = document.getDouble("price");
-                                String imageName = document.getString("image");
-                                int imageResId = getResources().getIdentifier(imageName, "drawable", getPackageName());
+                                String imageUrl = document.getString("imageUrl");
 
-                                if (name != null && description != null && price != null && imageName != null && imageResId != 0) {
-                                    seafoodList.add(new Seafood(id, name, description + " - $" + price, price, imageResId));
+                                if (name != null && description != null && price != null && imageUrl != null) {
+                                    seafoodList.add(new Seafood(id, name, description, price, imageUrl));
                                     Log.d(TAG, "Added seafood item: " + name);
                                 } else {
                                     Log.w(TAG, "Missing field in document: " + document.getId());

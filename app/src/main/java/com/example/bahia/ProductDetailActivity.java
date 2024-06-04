@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -42,26 +43,24 @@ public class ProductDetailActivity extends AppCompatActivity {
         String id = getIntent().getStringExtra("PRODUCT_ID");
         String name = getIntent().getStringExtra("PRODUCT_NAME");
         String description = getIntent().getStringExtra("PRODUCT_DESCRIPTION");
-        int imageResId = getIntent().getIntExtra("PRODUCT_IMAGE", 0);
+        String imageUrl = getIntent().getStringExtra("PRODUCT_IMAGE_URL");
         double price = getIntent().getDoubleExtra("PRODUCT_PRICE", 0.0);
 
-        productImage.setImageResource(imageResId);
         productName.setText(name);
         productDescription.setText(description);
         productPrice.setText(String.format("$%.2f", price));
 
-        addToCartButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int quantity = Integer.parseInt(productQuantity.getText().toString());
-                addToCart(id, name, description, price, imageResId, quantity);
-            }
+        Glide.with(this).load(imageUrl).into(productImage);
+
+        addToCartButton.setOnClickListener(v -> {
+            int quantity = Integer.parseInt(productQuantity.getText().toString());
+            addToCart(id, name, description, price, imageUrl, quantity);
         });
     }
 
-    private void addToCart(String id, String name, String description, double price, int imageResId, int quantity) {
+    private void addToCart(String id, String name, String description, double price, String imageUrl, int quantity) {
         String userId = mAuth.getCurrentUser().getUid();
-        Seafood seafood = new Seafood(id, name, description, price, imageResId, quantity);
+        Seafood seafood = new Seafood(id, name, description, price, imageUrl, quantity);
 
         db.collection("users").document(userId).collection("cart").document(id)
                 .set(seafood.toMap())

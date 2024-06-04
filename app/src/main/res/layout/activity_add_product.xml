@@ -5,10 +5,52 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/edit_product_id"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add Product Activity"
-        android:textSize="24sp" />
+        android:hint="ID del Producto"
+        android:layout_marginBottom="16dp" />
 
+    <EditText
+        android:id="@+id/edit_product_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nombre del Producto"
+        android:layout_marginBottom="16dp" />
+
+    <EditText
+        android:id="@+id/edit_product_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Descripción del Producto"
+        android:layout_marginBottom="16dp" />
+
+    <EditText
+        android:id="@+id/edit_product_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Precio del Producto"
+        android:inputType="numberDecimal"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/btn_select_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Seleccionar Imagen"
+        android:layout_marginBottom="16dp" />
+
+    <ImageView
+        android:id="@+id/image_view_product"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/btn_add_product"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Añadir Producto" />
 </LinearLayout>

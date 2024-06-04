@@ -33,17 +33,19 @@
         android:text="Price"
         android:layout_marginTop="4dp" />
 
-    <TextView
-        android:id="@+id/seafood_item_image_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Image Name"
-        android:layout_marginTop="4dp" />
-
     <ImageView
         android:id="@+id/seafood_item_image"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_marginTop="8dp"
         android:scaleType="centerCrop" />
+
+    <ImageView
+        android:id="@+id/btn_delete_product"
+        android:layout_width="40dp"
+        android:layout_height="28dp"
+        android:layout_gravity="end"
+        android:layout_marginTop="8dp"
+        android:contentDescription="Delete Product"
+        android:src="@drawable/ic_delete" />
 </LinearLayout>

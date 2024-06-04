@@ -9,6 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,7 +62,12 @@ public class PurchaseItemAdapter extends RecyclerView.Adapter<PurchaseItemAdapte
             descriptionTextView.setText(item.getDescription());
             priceTextView.setText(String.format("$%.2f", item.getPrice()));
             quantityTextView.setText(String.valueOf(item.getQuantity()));
-            imageView.setImageResource(item.getImageResId());
+
+            Glide.with(itemView.getContext())
+                    .load(item.getImageUrl())
+                    .placeholder(R.drawable.default_image) // Optional: placeholder image while loading
+                    .error(R.drawable.default_image) // Optional: error image if the load fails
+                    .into(imageView);
         }
     }
 }

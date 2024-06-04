@@ -9,6 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
@@ -73,11 +75,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             priceTextView.setText(String.format("$%.2f", item.getPrice()));
             quantityTextView.setText(String.valueOf(item.getQuantity()));
 
-            if (item.getImageResId() == 0) {
-                imageView.setImageResource(R.drawable.default_image);
-            } else {
-                imageView.setImageResource(item.getImageResId());
-            }
+            Glide.with(itemView.getContext())
+                    .load(item.getImageUrl())
+                    .placeholder(R.drawable.default_image) // Optional: placeholder image while loading
+                    .error(R.drawable.default_image) // Optional: error image if the load fails
+                    .into(imageView);
 
             removeButton.setOnClickListener(v -> onItemClickListener.onItemClick(item));
         }
