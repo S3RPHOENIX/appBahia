@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -66,18 +67,11 @@ public class PaymentOptionActivity extends AppCompatActivity {
         input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         builder.setView(input);
 
-        builder.setMessage("El total a pagar es de $" + (getTotalPrice() + DELIVERY_CHARGE) + " (incluyendo $50 de envío). Con cuánto pagará?");
-        builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String amountGiven = input.getText().toString();
-                if (!amountGiven.isEmpty()) {
-                    proceedToPayment("Pago contra entrega");
-                } else {
-                    Toast.makeText(PaymentOptionActivity.this, "Por favor, ingrese la cantidad con la que pagará", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        double totalAmount = getTotalPrice() + DELIVERY_CHARGE;
+        builder.setMessage("El total a pagar es de $" + totalAmount + " (incluyendo $50 de envío). ¿Con cuánto pagará?");
+
+        builder.setPositiveButton("Confirmar", null); // We'll override the click listener later
+
         builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -85,7 +79,32 @@ public class PaymentOptionActivity extends AppCompatActivity {
             }
         });
 
-        builder.show();
+        AlertDialog dialog = builder.create();
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                Button confirmButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                confirmButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String amountGivenStr = input.getText().toString();
+                        if (!amountGivenStr.isEmpty()) {
+                            double amountGiven = Double.parseDouble(amountGivenStr);
+                            if (amountGiven >= totalAmount) {
+                                proceedToPayment("Pago contra entrega");
+                                dialog.dismiss();
+                            } else {
+                                Toast.makeText(PaymentOptionActivity.this, "La cantidad ingresada es menor al total a pagar. Por favor, ingrese una cantidad válida.", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(PaymentOptionActivity.this, "Por favor, ingrese la cantidad con la que pagará", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        });
+
+        dialog.show();
     }
 
     private void proceedToPayment(String paymentMethod) {
