@@ -26,11 +26,8 @@ import com.google.firebase.storage.UploadTask;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-
 public class AddProductActivity extends AppCompatActivity {
-
     private static final int PICK_IMAGE_REQUEST = 1;
-
     private EditText editProductId, editProductName, editProductDescription, editProductPrice;
     private Button btnSelectImage, btnAddProduct;
     private ImageView imageViewProduct;

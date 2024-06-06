@@ -77,8 +77,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
             Glide.with(itemView.getContext())
                     .load(item.getImageUrl())
-                    .placeholder(R.drawable.default_image) // Optional: placeholder image while loading
-                    .error(R.drawable.default_image) // Optional: error image if the load fails
+                    .placeholder(R.drawable.default_image)
+                    .error(R.drawable.default_image)
                     .into(imageView);
 
             removeButton.setOnClickListener(v -> onItemClickListener.onItemClick(item));

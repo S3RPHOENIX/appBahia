@@ -53,7 +53,7 @@ public class ViewOrdersActivity extends AppCompatActivity {
                         }
                         if (purchaseList.isEmpty()) {
                             Log.d(TAG, "No purchases found");
-                            Toast.makeText(ViewOrdersActivity.this, "No purchases found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ViewOrdersActivity.this, "No se encontraron compras de los usuarios", Toast.LENGTH_SHORT).show();
                         } else {
                             purchaseAdapter.notifyDataSetChanged();
                         }

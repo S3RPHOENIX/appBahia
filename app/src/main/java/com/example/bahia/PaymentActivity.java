@@ -35,10 +35,8 @@ public class PaymentActivity extends AppCompatActivity {
         paymentMethod = getIntent().getStringExtra("paymentMethod");
         cartList = (ArrayList<Seafood>) getIntent().getSerializableExtra("cartList");
 
-        // Aquí puedes proceder con el pago usando addressId y paymentMethod
         Toast.makeText(this, "Address ID: " + addressId + "\nPayment Method: " + paymentMethod, Toast.LENGTH_LONG).show();
 
-        // Guardar el pedido en Firestore
         savePurchase();
     }
 
@@ -71,7 +69,7 @@ public class PaymentActivity extends AppCompatActivity {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             db.collection("users").document(userId).collection("cart").document(document.getId()).delete();
                         }
-                        // Ir a la actividad de éxito de pago
+
                         Intent intent = new Intent(PaymentActivity.this, PaymentSuccessActivity.class);
                         intent.putExtra("cartList", cartList);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

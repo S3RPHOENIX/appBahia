@@ -68,7 +68,7 @@ public class Seafood implements Serializable {
         map.put("name", name);
         map.put("description", description);
         map.put("price", price);
-        map.put("imageUrl", imageUrl); // Store the image URL as a string
+        map.put("imageUrl", imageUrl);
         map.put("quantity", quantity);
         return map;
     }

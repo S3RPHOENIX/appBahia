@@ -1,5 +1,7 @@
 package com.example.bahia;
 
+import static com.example.bahia.R.layout.activity_register;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -31,7 +33,7 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(activity_register);
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();

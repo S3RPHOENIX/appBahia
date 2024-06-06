@@ -75,7 +75,7 @@ public class PurchaseAdapter extends RecyclerView.Adapter<PurchaseAdapter.Purcha
                         .append(item.getQuantity())
                         .append("), ");
             }
-            // Eliminar la última coma y espacio
+            
             if (formattedItems.length() > 0) {
                 formattedItems.setLength(formattedItems.length() - 2);
             }

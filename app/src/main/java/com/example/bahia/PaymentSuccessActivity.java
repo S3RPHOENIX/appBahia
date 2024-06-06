@@ -1,5 +1,4 @@
 package com.example.bahia;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -8,7 +7,6 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
-
 public class PaymentSuccessActivity extends AppCompatActivity {
 
     private String addressId;
@@ -22,7 +20,7 @@ public class PaymentSuccessActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment_success);
 
-        // Asegúrate de que estas líneas estén después de setContentView
+
         addressId = getIntent().getStringExtra("addressId");
         paymentMethod = getIntent().getStringExtra("paymentMethod");
         cartList = (ArrayList<Seafood>) getIntent().getSerializableExtra("cartList");

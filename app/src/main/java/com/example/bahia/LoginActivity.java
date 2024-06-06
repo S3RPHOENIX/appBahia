@@ -99,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 })
-                .addOnFailureListener(e -> Toast.makeText(LoginActivity.this, "Error al verificar el rol del usuario: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                    .addOnFailureListener(e -> Toast.makeText(LoginActivity.this, "Error al verificar el rol del usuario: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 
     @Override
